@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name:java-k8-deployment
+    namespace:kubernetes-cluster-himanshiverma
+    labels:
+        app:app-himanshiverma
+spec:
+    selector:
+        matchLabels:
+            app:app-himanshiverma
+    replicas:4
+    template:
+        metadata:
+            labels:
+            app:app-himanshiverma
+        spec:
+            containers:
+            - name:app-himanshiverma
+              image : himanshiverma05/i-himanshiverma-feature:latest
+              env:
+              - name:deployment.branch
+                value:feature
+              ports:
+              - containerPort :8100
+---
+apiversion : v1
+kind:Service
+metadata:
+    namespace:kubernetes-cluster-himanshiverma
+    name:app-himanshiverma
+spec:
+    type:NodePort
+    selector:
+        app:app-himanshiverma
+    ports:
+     - protocol:TCP
+       nodePort : 7400
+       posrt:8100
+       targetPosrt:8100
+ 
